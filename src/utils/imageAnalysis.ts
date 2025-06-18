@@ -1,4 +1,3 @@
-
 import { PhotoFile, PhotoGroup } from '@/pages/Index';
 
 export interface ColorAnalysis {
@@ -49,11 +48,7 @@ const colorNameMap: { [key: string]: string } = {
   '#7FFFD4': 'Aquamarine',
   '#F0FFFF': 'Azure',
   '#F5F5DC': 'Beige',
-  '#000000': 'Black',
-  '#0000FF': 'Blue',
-  '#8A2BE2': 'Blue Violet',
-  '#A52A2A': 'Brown',
-  '#DEB887': 'Burlywood'
+  '#8A2BE2': 'Blue Violet'
 };
 
 export const analyzePhotoColor = async (file: File): Promise<ColorAnalysis> => {
