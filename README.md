@@ -1,8 +1,10 @@
-# Welcome to your Lovable project
+# Shirt Pics sorter
+<img width="642" alt="image" src="https://github.com/user-attachments/assets/8c82c087-515d-4c68-a8db-7b0eb297d3c0" />
+
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/cb577883-8f2e-43de-8dd6-10581dd0974d
+**URL**: https://gala-shirt-chronicle-photo-sorter.lovable.app
 
 ## How can I edit this code?
 
