@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, RefreshCw, Calendar, Image } from 'lucide-react';
+import { Download, RefreshCw, Calendar, Image, Palette } from 'lucide-react';
 import { PhotoGroup } from '@/pages/Index';
 import { downloadGroupsAsZip } from '@/utils/fileDownload';
 
@@ -70,6 +70,33 @@ export const PhotoGroups: React.FC<PhotoGroupsProps> = ({ groups, onStartOver })
                 <Image size={16} />
                 <span>{group.photos.length} photo{group.photos.length !== 1 ? 's' : ''}</span>
               </p>
+              
+              {/* Show detected colors for this group */}
+              <div className="space-y-2 pt-2 border-t">
+                <div className="flex items-center space-x-1 text-xs text-slate-600">
+                  <Palette size={14} />
+                  <span>Detected Colors:</span>
+                </div>
+                <div className="space-y-1">
+                  {group.photos.slice(0, 3).map((photo) => (
+                    <div key={photo.id} className="flex items-center justify-between text-xs">
+                      <span className="truncate max-w-24">{photo.file.name}</span>
+                      <div className="flex items-center space-x-1">
+                        <div 
+                          className="w-3 h-3 rounded border border-slate-300"
+                          style={{ backgroundColor: photo.analysis?.dominantColor || '#808080' }}
+                        />
+                        <span className="text-slate-600">{photo.analysis?.colorName || 'Unknown'}</span>
+                      </div>
+                    </div>
+                  ))}
+                  {group.photos.length > 3 && (
+                    <div className="text-xs text-slate-500">
+                      +{group.photos.length - 3} more...
+                    </div>
+                  )}
+                </div>
+              </div>
             </CardHeader>
             
             <CardContent className="pt-0">
@@ -80,7 +107,7 @@ export const PhotoGroups: React.FC<PhotoGroupsProps> = ({ groups, onStartOver })
                       src={photo.url}
                       alt={photo.file.name}
                       className="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer"
-                      title={photo.file.name}
+                      title={`${photo.file.name} - ${photo.analysis?.colorName || 'Unknown'} (${photo.analysis?.dominantColor || '#808080'})`}
                     />
                   </div>
                 ))}

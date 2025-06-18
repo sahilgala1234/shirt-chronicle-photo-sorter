@@ -23,13 +23,16 @@ export const PhotoAnalyzer: React.FC<PhotoAnalyzerProps> = ({
   const [progress, setProgress] = useState(0);
   const [currentPhoto, setCurrentPhoto] = useState<string>('');
   const [hasStarted, setHasStarted] = useState(false);
+  const [analyzedResults, setAnalyzedResults] = useState<Array<{name: string, color: string, colorName: string, confidence: number}>>([]);
 
   const startAnalysis = async () => {
     setIsAnalyzing(true);
     setHasStarted(true);
     setProgress(0);
+    setAnalyzedResults([]);
 
     const analyzedPhotos: PhotoFile[] = [];
+    const results: Array<{name: string, color: string, colorName: string, confidence: number}> = [];
 
     for (let i = 0; i < photos.length; i++) {
       const photo = photos[i];
@@ -41,6 +44,16 @@ export const PhotoAnalyzer: React.FC<PhotoAnalyzerProps> = ({
           ...photo,
           analysis
         });
+        
+        // Add to results for display
+        results.push({
+          name: photo.file.name,
+          color: analysis.dominantColor,
+          colorName: analysis.colorName,
+          confidence: analysis.confidence
+        });
+        setAnalyzedResults([...results]);
+        
       } catch (error) {
         console.error('Error analyzing photo:', error);
         // If analysis fails, use a default color
@@ -52,6 +65,14 @@ export const PhotoAnalyzer: React.FC<PhotoAnalyzerProps> = ({
             confidence: 0.5
           }
         });
+        
+        results.push({
+          name: photo.file.name,
+          color: '#808080',
+          colorName: 'Gray',
+          confidence: 0.5
+        });
+        setAnalyzedResults([...results]);
       }
 
       setProgress(((i + 1) / photos.length) * 100);
@@ -67,7 +88,7 @@ export const PhotoAnalyzer: React.FC<PhotoAnalyzerProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
       <div className="text-center space-y-4">
         <div className="flex justify-center">
           <div className="bg-blue-100 p-4 rounded-full">
@@ -128,6 +149,25 @@ export const PhotoAnalyzer: React.FC<PhotoAnalyzerProps> = ({
                 <p className="text-sm text-slate-600 text-center">
                   Processing: <span className="font-medium">{currentPhoto}</span>
                 </p>
+              )}
+              
+              {analyzedResults.length > 0 && (
+                <div className="mt-4 space-y-2 max-h-40 overflow-y-auto">
+                  <h4 className="font-medium text-slate-700">Detected Colors:</h4>
+                  {analyzedResults.map((result, index) => (
+                    <div key={index} className="flex items-center justify-between text-sm bg-slate-50 p-2 rounded">
+                      <span className="truncate max-w-xs">{result.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <div 
+                          className="w-4 h-4 rounded border border-slate-300"
+                          style={{ backgroundColor: result.color }}
+                        />
+                        <span className="font-medium">{result.colorName}</span>
+                        <span className="text-slate-500">({Math.round(result.confidence * 100)}%)</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
               
               <div className="flex justify-center">
