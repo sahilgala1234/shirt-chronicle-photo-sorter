@@ -6,16 +6,6 @@
 
 **URL**: https://gala-shirt-chronicle-photo-sorter.lovable.app
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb577883-8f2e-43de-8dd6-10581dd0974d) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
