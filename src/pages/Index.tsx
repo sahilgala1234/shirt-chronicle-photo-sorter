@@ -14,6 +14,7 @@ export interface PhotoFile {
     dominantColor: string;
     colorName: string;
     confidence: number;
+    aiPrediction?: boolean;
   };
   groupId?: string;
 }
